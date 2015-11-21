@@ -1,0 +1,23 @@
+My work: set sqoop in path in Oracle VM
+
+just ran the belo command without starting any hadoop cluster.
+Note that you no need to add any hyphen for the TOOL part.
+
+>sqoop version
+15/11/21 10:09:44 INFO sqoop.Sqoop: Running Sqoop version: 1.4.6
+Sqoop 1.4.6
+git commit id c0c5a81723759fa575844a0a1eae8f510fa32c25
+Compiled by root on Mon Apr 27 14:26:52 CST 2015
+
+sqoop import \    
+-Dsqoop.export.records.per.statement=1 \
+--connect jdbc:postgresql://postgresql.example.com/database \
+--username sqoop \
+--password sqoop \
+--table cities \
+-- \     #here extra args should be separated from sqoop args by  "--"
+--schema us
+
+The command-line interface has the following structure:
+sqoop TOOL PROPERTY_ARGS SQOOP_ARGS [-- EXTRA_ARGS]
+import is tool, property args start with -D, sqoop arts start with --, and extra args should be separated from sqoop args "--"
