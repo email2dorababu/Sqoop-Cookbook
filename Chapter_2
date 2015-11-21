@@ -1,4 +1,4 @@
-My work: set sqoop in path in Oracle VM
+My work: set sqoop in path in Oracle VM - 21st Nov - Sqoop Cookbook.
 
 just ran the belo command without starting any hadoop cluster.
 Note that you no need to add any hyphen for the TOOL part.
