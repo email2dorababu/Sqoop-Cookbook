@@ -40,3 +40,53 @@ REGIONS
 
 
 ----------------------------
+hadoop fs [here there is no  hyphens] is the command to check the hadoop file system.
+hadoop fs -ls [here hypen is there for unix shell commands]
+
+now importing a single table in to HDFS directory.. it is staraight forward.
+sqoop import --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle --table REGIONS
+
+here it was giving warnings for, $ACCUMULO_HOME,$HCAT_HOME, $ZOOKEEPER_HOME..
+Running Sqoop version: 1.4.6
+Setting your password on the command-line is insecure. Consider using -P instead.
+Using default fetchSize of 1000
+Time zone set to GMT.
+Executing SQL statement: SELECT t.* FROM REGIONS t WHERE 1=0
+HADOOP_MAPRED_HOME is /home/oracle/HBox/hadoop-1.2.1
+Writing jar file: /tmp/sqoop-oracle/compile/b497820f06545335208c06b886ee3232/REGIONS.jar
+Beginning import of REGIONS
+IMP - here the input format is db.DBInputFormat: Using read commited transaction isolation
+db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(REGION_ID), MAX(REGION_ID) FROM REGIONS
+mapred.JobClient: Running job: job_201511211124_0002  --NOTE why mapred.JobClient? why not Mapreduce???
+ Map input records=4
+ mapred.JobClient:   File Output Format Counters 
+15/11/21 11:30:53 INFO mapred.JobClient:     Bytes Written=52
+mapreduce.ImportJobBase: Retrieved 4 records.
+-----------------------------------------------------------------
+Now after the execution
+hadoop fs -lsr  : note use the recursive command to see all the files in the folder..
+[oracle@localhost ~]$ hadoop fs -lsr
+Warning: $HADOOP_HOME is deprecated.
+
+drwxr-xr-x   - oracle supergroup          0 2015-11-21 11:30 /user/oracle/REGIONS
+-rw-r--r--   1 oracle supergroup          0 2015-11-21 11:30 /user/oracle/REGIONS/_SUCCESS
+drwxr-xr-x   - oracle supergroup          0 2015-11-21 11:30 /user/oracle/REGIONS/_logs
+drwxr-xr-x   - oracle supergroup          0 2015-11-21 11:30 /user/oracle/REGIONS/_logs/history
+-rw-r--r--   1 oracle supergroup      17095 2015-11-21 11:30 /user/oracle/REGIONS/_logs/history/job_201511211124_0002_1448134216235_oracle_REGIONS.jar
+-rw-r--r--   1 oracle supergroup      63504 2015-11-21 11:30 /user/oracle/REGIONS/_logs/history/job_201511211124_0002_conf.xml
+-rw-r--r--   1 oracle supergroup          9 2015-11-21 11:30 /user/oracle/REGIONS/part-m-00000
+-rw-r--r--   1 oracle supergroup         11 2015-11-21 11:30 /user/oracle/REGIONS/part-m-00001
+-rw-r--r--   1 oracle supergroup          7 2015-11-21 11:30 /user/oracle/REGIONS/part-m-00002
+-rw-r--r--   1 oracle supergroup         25 2015-11-21 11:30 /user/oracle/REGIONS/part-m-00003
+
+here 4 part files are created, due to 4 map tasks. and here we have a Jar file .. and a conf.xml file in the logs folder..
+
+ hadoop fs -cat /user/oracle/REGIONS/ will give error saying that 'cat file does not exit'
+  hadoop fs -cat /user/oracle/REGIONS/*  will traverse through all the part files and displays the contents
+
+
+
+
+
+
+
