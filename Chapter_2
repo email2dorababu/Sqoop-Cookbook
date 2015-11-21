@@ -21,3 +21,22 @@ sqoop import \
 The command-line interface has the following structure:
 sqoop TOOL PROPERTY_ARGS SQOOP_ARGS [-- EXTRA_ARGS]
 import is tool, property args start with -D, sqoop arts start with --, and extra args should be separated from sqoop args "--"
+---------------------------
+In oracle sql developer
+connected to HR user
+select * from tab;
+set linesize 200;
+tables present are :
+
+ALL_OBJECTS_DORA
+EMP_DETAILS_VIEW
+JOB_HISTORY
+EMPLOYEES
+JOBS
+DEPARTMENTS
+LOCATIONS
+COUNTRIES
+REGIONS
+
+
+----------------------------
