@@ -1,0 +1,31 @@
+sqoop  list-tables --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle
+
+this lists all the tables in the HR schema.
+
+it is very importent to give the service names and delimiters
+: after thin
+//before the hostname
+/before the SID
+and use --password <pwd> to give the pwd inline
+
+to get help
+sqoop help
+and to get the command specific help
+use --help
+e.g sqoop list-tables --help
+this will list all the options for list-tables.
+----------------------------------------------------------------
+ sqoop  list-databases --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle
+sqoop  import --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle --table REGIONS
+created folder named REGIONS folder in user/oracle/
+sqoop  eval --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle --query "select * from REGIONS"
+sqoop eval command is very imp command, you can execute all the dml and invoke sp , insert update and delete etc using this command.
+
+
+sqoop  export --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle --table REGIONS1 --export-dir /user/oracle/REGIONS
+will fail because the target table must be existing, it will do only insert into.
+
+sqoop  export --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle --table REGIONS --export-dir /user/oracle/REGIONS
+loading duplicate values 
+
+but export is not happening.. check this with jagadish
