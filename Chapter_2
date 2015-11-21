@@ -95,5 +95,25 @@ may that is by the command Executing SQL statement: SELECT t.* FROM REGIONS t WH
 now sqoop connects to the cluste and submits the job .
 Mappers fetch data parallely from the table directly in to HDFS. Multiple mappers are run at the same time.
 
+------------------------
+2.2 Specifying the target directory:
+--target-dir to specify directory on HDFS, where sqoop should import your data.. i.e default dir name is table name, here we can give our own name to the target directory.
+--warehouse-dir to specify the PARENT directory for all your sqoop jobs.
+sqoop import --connect jdbc:oracle:thin:@//localhost:1521/orcl  --username HR --password oracle --table REGIONS --warehouse-dir input
+
+the job creates a directory in /user/orcle/input/. this a parent folder.
+in this inout folder, we will have a directory called regions. 
+ hadoop fs -lsr input  
+ drwxr-xr-x   - oracle supergroup          0 2015-11-21 11:58 /user/oracle/input/REGIONS
+-rw-r--r--   1 oracle supergroup          0 2015-11-21 11:58 /user/oracle/input/REGIONS/_SUCCESS
+drwxr-xr-x   - oracle supergroup          0 2015-11-21 11:58 /user/oracle/input/REGIONS/_logs
+drwxr-xr-x   - oracle supergroup          0 2015-11-21 11:58 /user/oracle/input/REGIONS/_logs/history
+-rw-r--r--   1 oracle supergroup      17095 2015-11-21 11:58 /user/oracle/input/REGIONS/_logs/history/job_201511211124_0003_1448135890641_oracle_REGIONS.jar
+-rw-r--r--   1 oracle supergroup      63510 2015-11-21 11:58 /user/oracle/input/REGIONS/_logs/history/job_201511211124_0003_conf.xml
+-rw-r--r--   1 oracle supergroup          9 2015-11-21 11:58 /user/oracle/input/REGIONS/part-m-00000
+-rw-r--r--   1 oracle supergroup         11 2015-11-21 11:58 /user/oracle/input/REGIONS/part-m-00001
+-rw-r--r--   1 oracle supergroup          7 2015-11-21 11:58 /user/oracle/input/REGIONS/part-m-00002
+-rw-r--r--   1 oracle supergroup         25 2015-11-21 11:58 /user/oracle/input/REGIONS/part-m-00003
+-----------------------------------------------------
 
 
