@@ -89,7 +89,11 @@ hadoop fs -cat /user/oracle/REGIONS/part*   this is example for using globs.
 3,Asia
 4,Middle East and Africa
 ---------------------
+PG 11 - first sqoop get the meta data...
+may that is by the command Executing SQL statement: SELECT t.* FROM REGIONS t WHERE 1=0 ...
 
+now sqoop connects to the cluste and submits the job .
+Mappers fetch data parallely from the table directly in to HDFS. Multiple mappers are run at the same time.
 
 
 
