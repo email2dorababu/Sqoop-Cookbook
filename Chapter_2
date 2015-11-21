@@ -83,9 +83,12 @@ here 4 part files are created, due to 4 map tasks. and here we have a Jar file .
 
  hadoop fs -cat /user/oracle/REGIONS/ will give error saying that 'cat file does not exit'
   hadoop fs -cat /user/oracle/REGIONS/*  will traverse through all the part files and displays the contents
-
-
-
+hadoop fs -cat /user/oracle/REGIONS/part*   this is example for using globs.
+1,Europe
+2,Americas
+3,Asia
+4,Middle East and Africa
+---------------------
 
 
 
