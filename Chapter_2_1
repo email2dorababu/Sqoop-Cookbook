@@ -64,6 +64,45 @@ the schema is generated automatically uisng the metadata info retrieved from the
 generated file.
 Application need to use AVRO libraries in order to open and process data stored as AVRO.
 In case of sequence file no need to import any special class, since the meta data  is embedded ini the imported files themselves.
+------------------------------
+sqoop import --connect jdbc:oracle:thin:@//localhost:1521/orcl --username HR --table REGIONS --target-dir reg2 --as-avrodatafile -P
+here using the below qyery the metadata is retrived and the schema is written to REGIONS.AVSC
+manager.SqlManager: Executing SQL statement: SELECT t.* FROM REGIONS t WHERE 1=0
+15/11/22 03:03:56 INFO mapreduce.DataDrivenImportJob: Writing Avro schema file: /tmp/sqoop-oracle/compile/d25f2b53a27df6d3208a02795729424b/REGIONS.avsc
+
+
+hadoop fs -lsr /user/oracle/reg2/
+Warning: $HADOOP_HOME is deprecated.
+
+-rw-r--r--   1 oracle supergroup          0 2015-11-22 03:04 /user/oracle/reg2/_SUCCESS
+drwxr-xr-x   - oracle supergroup          0 2015-11-22 03:04 /user/oracle/reg2/_logs
+drwxr-xr-x   - oracle supergroup          0 2015-11-22 03:04 /user/oracle/reg2/_logs/history
+-rw-r--r--   1 oracle supergroup      17123 2015-11-22 03:04 /user/oracle/reg2/_logs/history/job_201511220256_0002_1448190240209_oracle_REGIONS.jar
+-rw-r--r--   1 oracle supergroup      63577 2015-11-22 03:04 /user/oracle/reg2/_logs/history/job_201511220256_0002_conf.xml
+-rw-r--r--   1 oracle supergroup        369 2015-11-22 03:04 /user/oracle/reg2/part-m-00000.avro
+-rw-r--r--   1 oracle supergroup        371 2015-11-22 03:04 /user/oracle/reg2/part-m-00001.avro
+-rw-r--r--   1 oracle supergroup        367 2015-11-22 03:04 /user/oracle/reg2/part-m-00002.avro
+-rw-r--r--   1 oracle supergroup        385 2015-11-22 03:04 /user/oracle/reg2/part-m-00003.avro
+
+the output part files names are .avro
+ hadoop fs -cat /user/oracle/reg2/part-m-00000.avro
+Warning: $HADOOP_HOME is deprecated.
+
+Objavro.schema�{"type":"record","name":"REGIONS","doc":"Sqoop import of REGIONS","fields":[{"name":"REGION_ID","type":["null","string"],"default":null,"columnName":"REGION_ID","sqlType":"2"},{"name":"REGION_NAME","type":["null","string"],"default":null,"columnName":"REGION_NAME","sqlType":"12"}],"tableName":"REGIONS"}�95=��a�u1��1
+
+json fomat..
+
+----
+similarly: 
+sqoop import --connect jdbc:oracle:thin:@//localhost:1521/orcl --username HR --table REGIONS --target-dir reg1 --as-sequencefile -P
+hadoop fs -cat /user/oracle/reg1/part* shows the binary output..
+
+ hadoop fs -cat /user/oracle/reg1/part*
+Warning: $HADOOP_HOME is deprecated.
+
+SEQ!org.apache.hadoop.io.LongWritableREGIONSBXOk�����^tm:�	EuropeSEQ!org.apache.hadoop.io.LongWritableREGIONS�� �Si%'�7��_AmericasSEQ!org.apache.hadoop.io.LongWritableREGIONS)un��ԧx�1cAsiaSEQ!org.apache.hadoop.io.LongWritableREGIONSo�Nk\$��
+                                                                                                                 ��a�Middle East and Africa[oracle@localhost ~]$ 
+
 
 
 
