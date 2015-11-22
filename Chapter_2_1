@@ -1,0 +1,33 @@
+2.3 Importing only a subset of data.
+PG 31(13)
+use the command line parameter "--where" to specify the sql condition that the imported data should meet.
+
+SQOOP will rpopagate the contents of --where parameter, this is used to generate queries that fetch data.
+Any special functions,conversions, or even user-defined functions can be used.
+Note: this sql fragment will be propagated into generated queries without any sqoop processing.
+Becasue of the parallel processing, any expensive function call will put significant burde in db server.
+advanced functions could lock certain tables, which may prevent sqoop transfer data in parallel.
+Note: run the expensing filtering query on your database prior to import, and save its output to a temp table and run 
+sqoop to import the temp table into hadoop without the  "-- where" parameter.
+
+2.4 - Protecting your password:
+two options:
+do not specify the pwd with  --password parameter.
+first option is  "-P" that will instruct the sqoop to read the password from STD input.
+alternately pwd is stored in --password-file.
+
+-P method is very secure, and the pwd is not stored anywhere and is loaded on every sqoop execution directly from the user.
+The disadvantage is that this method cannot be automated with a SCRIPT.
+
+Second solution is using the --password-file. this will laod the pwd from any specified file on your HDFS cluster.
+TO make the file secure, store the file inside your HOME directory, set file's parmissions to 400, so no one else can fetch it.
+this method of storing pwd can be easily automated with a script and recommended.
+shell and hadoop commands to create and secure your pwd file:
+echo "my_pwd"> sqoop.password
+hadoop dfs -put sqoop.pawword /user/$USER/sqoop.password
+hadoop dfs -chown 400 /user/$USER/sqoop.password
+rm sqoop.password
+sqoop import --password-file /user/$USER/sqoop.password ...
+
+make sure there are no extra tailing lines and empty lines at the end of the file.
+-------------------------------------------
