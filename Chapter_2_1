@@ -31,3 +31,41 @@ sqoop import --password-file /user/$USER/sqoop.password ...
 
 make sure there are no extra tailing lines and empty lines at the end of the file.
 -------------------------------------------
+2.5 - Using a file format other than CSV.
+If the default CSV files that sqoop uses , does not suit then you prefer binary a primary format over plain text.
+
+Three different file formats are supported in SQOOP.
+TEXT is one format. TWO are Binary. Binary formats are - AVRO and Hadoop's SequenceFile.
+
+Options you need to specify are 
+--as-sequencefile
+--as-avrodatafile
+
+Binary formats have few benefits over text files.
+1) binary formats are a natural fit for storing binary values like Image or PDF docs.
+These are more suited for storing characters that are used as separators in the text file.
+The down side is - to access the binary data, you need to implement extra functionality or load special libraries in ur app.
+
+SequenceFile - is a special Hadoop file format used to store objects and implements Writable interface.
+this format is customized for Mapreduce and thus expects that each record will consists of 
+two parts... KEY and VALUE. 
+but sqoop does not have the concept of Key-value pairs. so it uses an empty object called NULLWRITABLE in place of the VALUE.
+For key , sqoop uses the generated class. this generated class is copied into the directory where sqoop is executed.
+This generated class need to be integrated with your application if you need to read a sqoop generated SequenceFile.
+
+Apache Avro is GENERIC data serialization system.
+--asavrodatafile - parameter instructs sqopp to use its COMPACT and FAST binary encoded format.
+Avro is very generic system that can store any arbitrary data structures.
+
+It uses concept called SCHEMA to describe the what data structures are stored within the file.
+The schema file is encoded as JSON so that it is decipherable by the human eye.
+
+the schema is generated automatically uisng the metadata info retrieved from the DB and this scehma is retained in each 
+generated file.
+Application need to use AVRO libraries in order to open and process data stored as AVRO.
+In case of sequence file no need to import any special class, since the meta data  is embedded ini the imported files themselves.
+
+
+
+
+
